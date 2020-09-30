@@ -41,8 +41,6 @@ class AuthenticateUsersService {
             expiresIn,
         });
 
-        // delete user.password;
-
         return {
             user,
             token,

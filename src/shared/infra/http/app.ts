@@ -5,9 +5,9 @@ import 'express-async-errors';
 
 import upload from '@config/upload';
 import AppError from '@shared/errors/AppError';
-import routes from './routes';
-
 import '@shared/infra/typeorm';
+import '@shared/containers';
+import routes from './routes';
 
 const app = express();
 

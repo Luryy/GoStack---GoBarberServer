@@ -12,7 +12,7 @@ import routes from './routes';
 const app = express();
 
 app.use(express.json());
-app.use('/files', express.static(upload.directory));
+app.use('/files', express.static(upload.uploadsFolder));
 app.use(routes);
 
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {

@@ -1,24 +1,24 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeMailProvider from '@shared/containers/providers/MailProvider/fakes/FakeMailProvider';
-// import FakeUserTokensRepository from '@modules/users/repositories/fakes/FakeUserTokensRepository';
+import FakeUserTokensRepository from '@modules/users/repositories/fakes/FakeUserTokensRepository';
 import SendForgotPasswordEmailService from '@modules/users/services/SendForgotPasswordEmailService';
 import AppError from '@shared/errors/AppError';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeMailProvider: FakeMailProvider;
-// let fakeUserTokensRepository: FakeUserTokensRepository;
+let fakeUserTokensRepository: FakeUserTokensRepository;
 let sendForgotPasswordEmailService: SendForgotPasswordEmailService;
 
 describe('SendForgotPasswordEmailService', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
         fakeMailProvider = new FakeMailProvider();
-        // fakeUserTokensRepository = new FakeUserTokensRepository();
+        fakeUserTokensRepository = new FakeUserTokensRepository();
 
         sendForgotPasswordEmailService = new SendForgotPasswordEmailService(
             fakeUsersRepository,
             fakeMailProvider,
-            // fakeUserTokensRepository,
+            fakeUserTokensRepository,
         );
     });
 
@@ -46,19 +46,19 @@ describe('SendForgotPasswordEmailService', () => {
         ).rejects.toBeInstanceOf(AppError);
     });
 
-    // it('should generate a forgot password token', async () => {
-    //     const generateToken = jest.spyOn(fakeUserTokensRepository, 'generate');
+    it('should generate a forgot password token', async () => {
+        const generateToken = jest.spyOn(fakeUserTokensRepository, 'generate');
 
-    //     const user = await fakeUsersRepository.create({
-    //         name: 'John Doe',
-    //         email: 'johndoe@example.com',
-    //         password: '12345678',
-    //     });
+        const user = await fakeUsersRepository.create({
+            name: 'John Doe',
+            email: 'johndoe@example.com',
+            password: '12345678',
+        });
 
-    //     await sendForgotPasswordEmailService.execute({
-    //         email: 'johndoe@example.com',
-    //     });
+        await sendForgotPasswordEmailService.execute({
+            email: 'johndoe@example.com',
+        });
 
-    //     expect(generateToken).toHaveBeenCalledWith(user.id);
-    // });
+        expect(generateToken).toHaveBeenCalledWith(user.id);
+    });
 });

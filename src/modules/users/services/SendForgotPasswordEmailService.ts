@@ -1,7 +1,7 @@
 // import path from 'path';
 // import { APP_WEB_URL } from '@shared/utils/environment';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-// import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository';
+import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository';
 import IMailProvider from '@shared/containers/providers/MailProvider/models/IMailProvider';
 
 import { injectable, inject } from 'tsyringe';
@@ -16,7 +16,7 @@ class SendForgotPasswordEmailService {
 
     private mailProvider: IMailProvider;
 
-    // private userTokensRepository: IUserTokensRepository;
+    private userTokensRepository: IUserTokensRepository;
 
     constructor(
         @inject('UsersRepository')
@@ -25,12 +25,12 @@ class SendForgotPasswordEmailService {
         @inject('MailProvider')
         mailProvider: IMailProvider,
 
-        // @inject('UserTokensRepository')
-        // userTokensRepository: IUserTokensRepository,
+        @inject('UserTokensRepository')
+        userTokensRepository: IUserTokensRepository,
     ) {
         this.usersRepository = usersRepository;
         this.mailProvider = mailProvider;
-        // this.userTokensRepository = userTokensRepository;
+        this.userTokensRepository = userTokensRepository;
     }
 
     public async execute({ email }: IRequest): Promise<void> {
@@ -40,11 +40,11 @@ class SendForgotPasswordEmailService {
             throw new AppError('Email not exists', 401);
         }
 
-        // const { token } = await this.userTokensRepository.generate(user.id);
+        const { token } = await this.userTokensRepository.generate(user.id);
 
         await this.mailProvider.sendMail({
             to: {
-                name: user.name,
+                name: user.name + token, // remove
                 email: user.email,
             },
             // subject: '[GoBarber] Recuperação de senha',

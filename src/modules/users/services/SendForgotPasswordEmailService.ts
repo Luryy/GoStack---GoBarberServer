@@ -1,4 +1,4 @@
-// import path from 'path';
+import path from 'path';
 // import { APP_WEB_URL } from '@shared/utils/environment';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository';
@@ -44,17 +44,23 @@ class SendForgotPasswordEmailService {
 
         await this.mailProvider.sendMail({
             to: {
-                name: user.name + token, // remove
+                name: user.name, // remove
                 email: user.email,
             },
-            // subject: '[GoBarber] Recuperação de senha',
-            // templateData: {
-            //     file: path.resolve(__dirname, '..', 'views', 'forgot_password.hbs'),
-            //     variables: {
-            //         name: user.name,
-            //         link: `${APP_WEB_URL}/reset-password?token=${token}`,
-            //     },
-            // },
+            subject: '[GoBarber] Recuperação de senha',
+            templateData: {
+                file: path.resolve(
+                    __dirname,
+                    '..',
+                    'views',
+                    'forgot_password.hbs',
+                ),
+                variables: {
+                    name: user.name,
+                    // link: `${APP_WEB_URL}/reset-password?token=${token}`,
+                    link: `http://localhost:3333/reset-password?token=${token}`,
+                },
+            },
         });
     }
 }

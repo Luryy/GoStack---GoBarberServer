@@ -7,6 +7,7 @@ import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequestDTO {
     provider_id: string;
+    user_id: string;
     date: Date;
 }
 
@@ -19,6 +20,7 @@ class CreateAppointmentsService {
 
     public async execute({
         provider_id,
+        user_id,
         date,
     }: IRequestDTO): Promise<Appointment> {
         const appointmentDate = startOfHour(date);
@@ -33,6 +35,7 @@ class CreateAppointmentsService {
 
         const appointment = await this.appointmentsRepository.create({
             provider_id,
+            user_id,
             date: appointmentDate,
         });
 

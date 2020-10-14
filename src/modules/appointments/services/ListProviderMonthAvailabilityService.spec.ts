@@ -20,7 +20,7 @@ describe('ListProviderMonthAvailability', () => {
             iterable.map(async item =>
                 fakeAppointmentsRepository.create({
                     provider_id: 'user',
-                    // user_id: 'user',
+                    user_id: 'any_user',
                     date: new Date(2020, 4, 18, item, 0, 0),
                 }),
             ),
@@ -28,7 +28,7 @@ describe('ListProviderMonthAvailability', () => {
 
         await fakeAppointmentsRepository.create({
             provider_id: 'user',
-            // user_id: 'user',
+            user_id: 'any_user',
             date: new Date(2020, 4, 21, 8, 0, 0),
         });
 

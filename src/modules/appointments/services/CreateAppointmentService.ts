@@ -1,4 +1,4 @@
-import { startOfHour } from 'date-fns';
+import { startOfHour, isBefore, getHours, parseISO } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
@@ -23,7 +23,21 @@ class CreateAppointmentsService {
         user_id,
         date,
     }: IRequestDTO): Promise<Appointment> {
-        const appointmentDate = startOfHour(date);
+        const appointmentDate = startOfHour(parseISO(String(date)));
+
+        if (isBefore(appointmentDate, Date.now())) {
+            throw new AppError("You can't book appointments in past dates");
+        }
+
+        if (provider_id === user_id) {
+            throw new AppError("You can't book appointments with yourself");
+        }
+
+        if (getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17) {
+            throw new AppError(
+                "You can't book appointments outside commercial time",
+            );
+        }
 
         const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
             appointmentDate,

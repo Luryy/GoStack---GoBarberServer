@@ -11,20 +11,10 @@ interface IRequest {
 
 @injectable()
 class ListProvidersService {
-    private usersRepository: IUsersRepository;
-
-    // private cacheProvider: ICacheProvider;
-
     constructor(
         @inject('UsersRepository')
-        usersRepository: IUsersRepository,
-
-        // @inject('CacheProvider')
-        // cacheProvider: ICacheProvider,
-    ) {
-        this.usersRepository = usersRepository;
-        // this.cacheProvider = cacheProvider;
-    }
+        private usersRepository: IUsersRepository, // @inject('CacheProvider') // private cacheProvider: ICacheProvider,
+    ) {}
 
     public async execute({ user_id }: IRequest): Promise<User[]> {
         // let users = await this.cacheProvider.recover<User[]>(

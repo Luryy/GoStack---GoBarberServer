@@ -15,20 +15,13 @@ interface IRequest {
 
 @injectable()
 class UpdateProfileService {
-    private usersRepository: IUsersRepository;
-
-    private hashProvider: IHashProvider;
-
     constructor(
         @inject('UsersRepository')
-        usersRepository: IUsersRepository,
+        private usersRepository: IUsersRepository,
 
         @inject('HashProvider')
-        hashProvider: IHashProvider,
-    ) {
-        this.usersRepository = usersRepository;
-        this.hashProvider = hashProvider;
-    }
+        private hashProvider: IHashProvider,
+    ) {}
 
     public async execute({
         user_id,

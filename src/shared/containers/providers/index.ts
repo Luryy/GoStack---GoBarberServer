@@ -9,7 +9,7 @@ import IMailTemplateProvider from './MailTemplateProvider/models/IMailTemplatePr
 import HandlebarsMailTemplateProvider from './MailTemplateProvider/implementations/HandlebarsMailTemplateProvider';
 
 import IMailProvider from './MailProvider/models/IMailProvider';
-import EthernalMailProvider from './MailProvider/implementations/EthernalMailProvider';
+import EtherealMailProvider from './MailProvider/implementations/EtherealMailProvider';
 import SESMailProvider from './MailProvider/implementations/SESMailProvider';
 
 container.registerSingleton<IStorageProvider>(
@@ -25,6 +25,6 @@ container.registerSingleton<IMailTemplateProvider>(
 container.registerInstance<IMailProvider>(
     'MailProvider',
     mailConfig.driver === 'ethereal'
-        ? container.resolve(EthernalMailProvider)
+        ? container.resolve(EtherealMailProvider)
         : container.resolve(SESMailProvider),
 );

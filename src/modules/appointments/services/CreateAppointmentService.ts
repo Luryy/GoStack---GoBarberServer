@@ -1,9 +1,10 @@
-import { startOfHour, isBefore, getHours, parseISO, format } from 'date-fns';
+import { startOfHour, isBefore, getHours, format } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 import AppError from '@shared/errors/AppError';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import ICacheProvider from '@shared/containers/providers/CacheProvider/models/ICacheProvider';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequestDTO {
@@ -20,6 +21,9 @@ class CreateAppointmentsService {
 
         @inject('NotificationsRepository')
         private notificationsRepository: INotificationsRepository,
+
+        @inject('CacheProvider')
+        private cacheProvider: ICacheProvider,
     ) {}
 
     public async execute({
@@ -27,7 +31,7 @@ class CreateAppointmentsService {
         user_id,
         date,
     }: IRequestDTO): Promise<Appointment> {
-        const appointmentDate = startOfHour(parseISO(String(date)));
+        const appointmentDate = startOfHour(date);
 
         if (isBefore(appointmentDate, Date.now())) {
             throw new AppError("You can't book appointments in past dates");
@@ -66,6 +70,13 @@ class CreateAppointmentsService {
             recipient_id: provider_id,
             content: `Novo agendamento para ${dateFormatted}`,
         });
+
+        await this.cacheProvider.invalidate(
+            `provider-appointments:${provider_id}:${format(
+                appointmentDate,
+                'd-M-yyyy',
+            )}`,
+        );
 
         return appointment;
     }

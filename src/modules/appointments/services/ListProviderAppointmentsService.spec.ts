@@ -1,19 +1,19 @@
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 import ListProviderAppointmentsService from '@modules/appointments/services/ListProviderAppointmentsService';
-// import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import FakeCacheProvider from '@shared/containers/providers/CacheProvider/fakes/FakeCacheProvider';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let listProviderAppointmentsService: ListProviderAppointmentsService;
-// let fakeCacheProvider: FakeCacheProvider;
+let fakeCacheProvider: FakeCacheProvider;
 
 describe('ListProviderAppointmentsService', () => {
     beforeEach(() => {
         fakeAppointmentsRepository = new FakeAppointmentsRepository();
-        // fakeCacheProvider = new FakeCacheProvider();
+        fakeCacheProvider = new FakeCacheProvider();
 
         listProviderAppointmentsService = new ListProviderAppointmentsService(
             fakeAppointmentsRepository,
-            // fakeCacheProvider,
+            fakeCacheProvider,
         );
 
         jest.spyOn(Date, 'now').mockImplementationOnce(() => {

@@ -43,7 +43,7 @@ const AuthProvider: React.FC = ({ children }) => {
         error => {
           const { response } = error;
 
-          if (response.data.message === 'jwt expired') {
+          if (response?.data.message === 'jwt expired') {
             signOut();
           }
 
@@ -72,7 +72,7 @@ const AuthProvider: React.FC = ({ children }) => {
       error => {
         const { response } = error;
 
-        if (response.data.message === 'jwt expired') {
+        if (response?.data.message === 'jwt expired') {
           signOut();
         }
 

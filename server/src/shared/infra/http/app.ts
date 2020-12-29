@@ -3,6 +3,7 @@ import 'dotenv/config';
 
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
+import cors from 'cors';
 
 import { errors } from 'celebrate';
 
@@ -18,6 +19,7 @@ const app = express();
 
 app.use(rateLimiter);
 app.use(express.json());
+app.use(cors());
 app.use('/files', express.static(upload.uploadsFolder));
 app.use(routes);
 

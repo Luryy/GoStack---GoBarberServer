@@ -11,7 +11,7 @@ const App: React.FC = () => (
   //     <Routes />
   //   </AppProvider>
   <h1>Hello</h1>
-  //   <GlobalStyle />
+  //  <GlobalStyle />
   // </Router>
 );
 

@@ -42,6 +42,8 @@
     "@typescript-eslint/interface-name-prefix": ["error", { "prefixWithI": "always" }],
     "import/prefer-default-export": "off",
     "import/no-duplicates": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-shadow": "off",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
